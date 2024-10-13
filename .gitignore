@@ -1,0 +1,14 @@
+# Ignore the .env file (contains sensitive API credentials)
+.env
+
+# Ignore the .cache file (contains temporary authentication tokens)
+.cache
+
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+
+# Ignore virtual environment directories
+venv/
+.env/
+env/
