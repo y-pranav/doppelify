@@ -15,7 +15,7 @@ auth_manager = SpotifyClientCredentials(client_id=client_id, client_secret=clien
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
 # Search for a song (Coldplay, for example)
-result = sp.search(q="Coldplay", type="track", limit=1)
+result = sp.search(q="Rahiohead", type="track", limit=1)
 track = result['tracks']['items'][0]
 
 # Display the track name and its ID
