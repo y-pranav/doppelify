@@ -18,8 +18,10 @@ pip install -r requirements.txt
 ---
 
 ### **1.2 Download the Million Song Dataset (MSD)**
+[Million Song Dataset](http://millionsongdataset.com/)  
+
 Download the **subset** (~2GB) from:  
-[Million Song Dataset Subset (HDF5)](https://labrosa.ee.columbia.edu/millionsong/sites/default/files/AdditionalFiles/MillionSongSubset.tar.gz)  
+[Million Song Dataset Subset (HDF5)](http://labrosa.ee.columbia.edu/~dpwe/tmp/millionsongsubset.tar.gz)  
 
 Extract the files into `data/` so your structure looks like:
 
