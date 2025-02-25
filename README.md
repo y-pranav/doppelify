@@ -1,7 +1,10 @@
-# **Doppelify 🎵**  
+# **Doppelify**  
 A music processing pipeline that extracts audio features from the **Million Song Dataset (MSD)** and applies **K-Nearest Neighbors (KNN)** to find similar songs.  
 
-The extracted metadata includes features like **tempo, loudness, energy, and more**. The MSD subset contains **limited available features**, but additional audio properties can be fetched from **Spotify API** or generated using **Librosa** for a more comprehensive similarity analysis.
+The extracted metadata includes features like **tempo, loudness, energy, and more**. The MSD subset contains **limited available features**, but additional audio properties can be fetched from **Spotify API** or generated using **Librosa** for a more comprehensive similarity analysis.  
+
+### **Prediction Accuracy**  
+The accuracy of **song similarity recommendations** improves with **more data** and **more extracted features**. A larger dataset with feature-rich songs leads to **better and more meaningful recommendations**.
 
 ---
 
@@ -58,17 +61,20 @@ MSD_DATA_DIR=data/
 ```bash
 python main.py --process_msd
 ```
-
-This extracts **tempo, loudness, energy, and duration** from available data in the MSD subset.
+Extracts **tempo, loudness, energy, and duration** from available data in the MSD subset and stores them in the database.
 
 ---
 
 ### **2.2 Run KNN Similarity Matching**
+Find similar songs to a **specific song**:
+```bash
+python main.py --run_knn --song "Imagine"
+```
+
+Find similar songs using the **first available song** in the dataset:
 ```bash
 python main.py --run_knn
 ```
-
-This finds **similar songs based on tempo and loudness**.
 
 ---
 
@@ -76,21 +82,49 @@ This finds **similar songs based on tempo and loudness**.
 ```bash
 python main.py --all
 ```
-
+Runs the entire process—extracts features from MSD and runs KNN.
 
 ---
 
-## **4. Code Structure**
+## **4. How Similar Song Search Works**
+Doppelify uses **K-Nearest Neighbors (KNN)** to find songs that are similar based on extracted **tempo and loudness**.  
+
+**The more features available (danceability, energy, valence, etc.), the better the results.**
+
+### **Expected Input**
+You provide a **song title** to find similar tracks:
+
+```bash
+python main.py --run_knn --song "Imagine"
+```
+
+### **Expected Output**
+```bash
+Finding songs similar to: Imagine
+
+Similar Song: Bohemian Rhapsody, Artist: Queen, Distance: 0.2
+Similar Song: Billie Jean, Artist: Michael Jackson, Distance: 0.5
+Similar Song: Smells Like Teen Spirit, Artist: Nirvana, Distance: 0.6
+```
+
+If the song isn't found in the dataset, it defaults to searching using the first available song.
+
+---
+
+## **5. Code Structure**
 ```
 📂 doppelify
 │── 📂 data/         # Contains MSD HDF5 files
 │── 📂 scripts/
 │   │── dataset_creation.py    # Parses MSD and inserts into PostgreSQL
-│   │── hdf5reader.py          # Reads HDF5 files
-│   │── hdf5tester.py          # Tests HDF5 reading functionality
 │   │── knn.py                 # Implements song similarity using KNN
 │── 📂 misc/         # Additional scripts for further feature extraction (optional)
-│── main.py                    # Single entry point for execution
+│   │── hdf5reader.py          # Reads HDF5 files
+│   │── hdf5tester.py          # Tests HDF5 reading functionality
+│   │── librosa_features.py    # Extracts features from an audio file
+|   |── spotify_features.py    # Spotify API to extract features of a song
+│   │── hdf5tester.py          # Tests HDF5 reading functionality
+│── main.py                    # Entry point for execution
 │── .env                        # Stores database config
 │── requirements.txt            # Dependencies
 │── README.md                   # Documentation

@@ -22,7 +22,7 @@ query = """
     AND tempo != 0 AND loudness != 0;
 """
 
-df = pd.read_sql(query, conn.connection)  # Fix for SQLAlchemy warning
+df = pd.read_sql(query, conn)  # Fix for SQLAlchemy warning
 conn.close()
 
 if df.empty:
